@@ -38,17 +38,18 @@ export class SuppliersService {
         const skip = (page - 1) * limit;
         try {
             const [total, data] = await Promise.all([
-                this.supplierRepository.count({where: {isActive: true} }),
-                this.supplierRepository.find({where: {isActive: true}, take: limit, skip: skip})
+                this.supplierRepository.count({ where: { isActive: true } }),
+                this.supplierRepository.find({ where: { isActive: true }, take: limit, skip: skip })
             ])
             const lastPage = Math.ceil(total / limit);
 
-            if(!total){
+            if (!data) {
                 new ManagerError({
                     type: "NOT_FOUND",
-                    message: "No hay registros!"
+                    message: "No hay Suppliers"
                 })
             }
+
             return {
                 page,
                 limit,
@@ -63,7 +64,7 @@ export class SuppliersService {
 
     async findOne(id: string): Promise<SupplierEntity> {
         try {
-            const supplier = await this.supplierRepository.findOne({where: {id: id}})
+            const supplier = await this.supplierRepository.findOne({ where: { id: id } })
             if (!supplier) {
                 throw new ManagerError({
                     type: 'NOT_FOUND',
@@ -93,7 +94,7 @@ export class SuppliersService {
 
     async remove(id: string): Promise<UpdateResult> {
         try {
-            const supplier = await this.supplierRepository.update({id}, {isActive: false})
+            const supplier = await this.supplierRepository.update({ id }, { isActive: false })
             if (supplier.affected === 0) {
                 throw new ManagerError({
                     type: 'NOT_FOUND',

@@ -45,6 +45,13 @@ export class CategoriesService {
       ])
       const lastPage = Math.ceil(total / limit);
 
+      if (!data) {
+        new ManagerError({
+          type: "NOT_FOUND",
+          message: "No hay Categorias"
+        })
+      }
+
       return {
         page,
         limit,
