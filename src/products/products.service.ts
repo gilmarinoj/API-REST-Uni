@@ -42,8 +42,14 @@ export class ProductsService {
       // const data = await this.categoryRepository.find({ where: { isActive: true }, take: limit, skip: skip })
       const [total, data] = await Promise.all([
         this.productRepository.count({ where: { isActive: true } }),
-        this.productRepository.find({ where: { isActive: true }, take: limit, skip: skip })
-      ])
+        this.productRepository.createQueryBuilder('product')
+          .where({ isActive: true })
+          .leftJoinAndSelect('product.category', 'category')
+          .leftJoinAndSelect('product.supplier', 'supplier')
+          .take(limit)
+          .skip(skip)
+          .getMany()
+      ]);
       const lastPage = Math.ceil(total / limit);
 
       if (!data) {
@@ -67,7 +73,12 @@ export class ProductsService {
 
   async findOne(id: string): Promise<ProductEntity> {
     try {
-      const product = await this.productRepository.findOne({ where: { id: id } })
+      const product = await this.productRepository.createQueryBuilder('product')
+        .where({ id, isActive: true })
+        .leftJoinAndSelect('product.supplier', 'supplier')
+        .leftJoinAndSelect('product.category', 'category')
+        .getOne()
+
       if (!product) {
         throw new ManagerError({
           type: 'NOT_FOUND',

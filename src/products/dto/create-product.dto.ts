@@ -23,4 +23,14 @@ export class CreateProductDto {
     @IsArray()
     @IsOptional()
     photo?: string[];
+
+
+    @IsString()
+    @IsNotEmpty()
+    category: string;
+
+    @IsString()
+    @IsNotEmpty()
+    supplier: string;
+
 }
