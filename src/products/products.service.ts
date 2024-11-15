@@ -46,6 +46,7 @@ export class ProductsService {
           .where({ isActive: true })
           .leftJoinAndSelect('product.category', 'category')
           .leftJoinAndSelect('product.supplier', 'supplier')
+          .leftJoinAndSelect('product.stocks', 'stocks')
           .take(limit)
           .skip(skip)
           .getMany()
@@ -77,6 +78,7 @@ export class ProductsService {
         .where({ id, isActive: true })
         .leftJoinAndSelect('product.supplier', 'supplier')
         .leftJoinAndSelect('product.category', 'category')
+        .leftJoinAndSelect('product.stocks', 'stocks')
         .getOne()
 
       if (!product) {

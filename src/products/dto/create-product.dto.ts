@@ -15,10 +15,6 @@ export class CreateProductDto {
     @Min(0)
     price?: number = 0;
 
-    @IsNumber()
-    @IsOptional()
-    @Min(0)
-    stock?: number = 0;
 
     @IsArray()
     @IsOptional()

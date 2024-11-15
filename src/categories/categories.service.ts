@@ -41,7 +41,12 @@ export class CategoriesService {
       // const data = await this.categoryRepository.find({ where: { isActive: true }, take: limit, skip: skip })
       const [total, data] = await Promise.all([
         this.categoryRepository.count({ where: { isActive: true } }),
-        this.categoryRepository.find({ where: { isActive: true }, take: limit, skip: skip })
+        this.categoryRepository.createQueryBuilder('category')
+        .where({ isActive: true })
+        .leftJoinAndSelect('category.products', 'products')
+        .take(limit)
+        .skip(skip)
+        .getMany()
       ])
       const lastPage = Math.ceil(total / limit);
 

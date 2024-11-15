@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSourceConfig } from './common/config/data.source';
+import { WarehousesModule } from './warehouses/warehouses.module';
+import { StocksModule } from './stocks/stocks.module';
 
 @Module({
   imports: [ 
@@ -18,7 +20,7 @@ import { DataSourceConfig } from './common/config/data.source';
     ProductsModule, 
     CategoriesModule, 
     SuppliersModule, 
-    UsersModule,
+    UsersModule, WarehousesModule, StocksModule,
   ],
   controllers: [],
   providers: [],
