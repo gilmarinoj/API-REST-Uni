@@ -9,6 +9,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSourceConfig } from './common/config/data.source';
 import { WarehousesModule } from './warehouses/warehouses.module';
 import { StocksModule } from './stocks/stocks.module';
+import { AuthModule } from './auth/auth.module';
+import { PurchasesModule } from './purchases/purchases.module';
+import { PaymentMethodsModule } from './payment-methods/payment-methods.module';
 
 @Module({
   imports: [ 
@@ -20,7 +23,7 @@ import { StocksModule } from './stocks/stocks.module';
     ProductsModule, 
     CategoriesModule, 
     SuppliersModule, 
-    UsersModule, WarehousesModule, StocksModule,
+    UsersModule, WarehousesModule, StocksModule, AuthModule, PurchasesModule, PaymentMethodsModule,
   ],
   controllers: [],
   providers: [],

@@ -112,4 +112,20 @@ export class UsersService {
             ManagerError.createSignatureError(error.message);
         }
     }
+
+    async findOneByEmail(email: string): Promise<UserEntity> {
+        try {
+            const user = await this.userRepository.findOne({ where: { email, isActive: true } })
+            if (!user) {
+                throw new ManagerError({
+                    type: 'NOT_FOUND',
+                    message: 'User not found',
+                });
+            }
+
+            return user;
+        } catch (error) {
+            ManagerError.createSignatureError(error.message);
+        }
+    }
 }
