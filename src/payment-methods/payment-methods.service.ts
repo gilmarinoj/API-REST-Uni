@@ -6,7 +6,7 @@ import { PaymentMethodEntity } from './entities/payment-method.entity';
 import { ManagerError } from 'src/common/errors/manager.error';
 import { Repository, UpdateResult } from 'typeorm';
 import { PaginationDto } from 'src/common/dtos/pagination/pagination.dto';
-import { ResponseAllPaymentMethods } from './interfaces/response-products.interface';
+import { ResponseAllPaymentMethods } from './interfaces/response-payment-methods.interface';
 
 @Injectable()
 export class PaymentMethodsService {
