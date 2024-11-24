@@ -3,7 +3,7 @@ import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 export class CreateWarehouseDto {
     @IsString()
     @IsNotEmpty()
-    name: string
+    warehouse_name: string
 
     @IsOptional()
     @IsString()

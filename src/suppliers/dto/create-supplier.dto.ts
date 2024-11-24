@@ -1,14 +1,14 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateSupplierDto {
     
     @IsString()
     @IsNotEmpty()
-    name: string;
+    supplier_name: string;
 
     @IsString()
-    @IsOptional()
-    phone?: string;
+    @IsNotEmpty()
+    phone: string;
 
     @IsString()
     @IsNotEmpty()
@@ -16,6 +16,18 @@ export class CreateSupplierDto {
     email: string;
 
     @IsString()
-    @IsOptional()
-    address?: string;
+    @IsNotEmpty()
+    address: string;
+
+    @IsString()
+    @IsNotEmpty()
+    city: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    postal_code: number
+
+    @IsString()
+    @IsNotEmpty()
+    supplier_contact: string
 }

@@ -1,4 +1,4 @@
-import { BaseEntity } from "./../../common/config/base.entity";
+import { BaseEntity } from "../../common/config/base.entity";
 import { ProductEntity } from "../../products/entities/product.entity";
 import { WarehouseEntity } from "../../warehouses/entities/warehouse.entity";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";

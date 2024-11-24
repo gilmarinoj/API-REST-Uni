@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query
 import { StocksService } from './stocks.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
-import { PaginationDto } from 'src/common/dtos/pagination/pagination.dto';
+import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
 
 @Controller('stocks')
 export class StocksController {

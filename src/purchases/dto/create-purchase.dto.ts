@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from "class-validator";
-import { PurchaseStatus } from "src/common/enums/purchases-status.enum";
+import { PurchaseStatus } from "@/common/enums/purchases-status.enum";
 
 export class CreatePurchaseDto {
 
@@ -9,5 +9,11 @@ export class CreatePurchaseDto {
 
     @IsNotEmpty()
     @IsString()
-    paymentMethod: string
+    payment_method: string
+
+    @IsNotEmpty()
+    @IsString()
+    customer: string
+
+
 }

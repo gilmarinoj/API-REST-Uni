@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
-import { error } from "console";
 
 export class ManagerError extends Error {
 

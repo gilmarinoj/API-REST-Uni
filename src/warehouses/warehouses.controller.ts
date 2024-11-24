@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query
 import { WarehousesService } from './warehouses.service';
 import { CreateWarehouseDto } from './dto/create-warehouse.dto';
 import { UpdateWarehouseDto } from './dto/update-warehouse.dto';
-import { PaginationDto } from 'src/common/dtos/pagination/pagination.dto';
+import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
 
 @Controller('warehouses')
 export class WarehousesController {

@@ -4,7 +4,7 @@ export class CreateProductDto {
     @IsString()
     @IsNotEmpty()
     @MinLength(3)    
-    name: string;
+    product_name: string;
 
     @IsString()
     @IsOptional()
@@ -28,5 +28,6 @@ export class CreateProductDto {
     @IsString()
     @IsNotEmpty()
     supplier: string;
+
 
 }

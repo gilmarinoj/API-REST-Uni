@@ -3,11 +3,12 @@ import { Injectable } from "@nestjs/common";
 import { CreateSupplierDto } from "./dto/create-supplier.dto";
 import { UpdateSupplierDto } from "./dto/update-supplier.dto";
 import { SupplierEntity } from "./entities/supplier.entity";
-import { ManagerError } from "src/common/errors/manager.error";
-import { PaginationDto } from '../common/dtos/pagination/pagination.dto';
+import { ManagerError } from "@/common/errors/manager.error";
+import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
 import { ResponseAllSuppliers } from "./interfaces/response-suppliers.interface";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository, UpdateResult } from "typeorm";
+import { AllApiResponse } from "@/common/interfaces/response-api.interface";
 
 @Injectable()
 export class SuppliersService {
@@ -33,13 +34,18 @@ export class SuppliersService {
         }
     }
 
-    async findAll(paginationDto: PaginationDto): Promise<ResponseAllSuppliers> {
+    async findAll(paginationDto: PaginationDto): Promise<AllApiResponse<SupplierEntity>> {
         const { limit, page } = paginationDto;
         const skip = (page - 1) * limit;
         try {
             const [total, data] = await Promise.all([
                 this.supplierRepository.count({ where: { isActive: true } }),
-                this.supplierRepository.find({ where: { isActive: true }, take: limit, skip: skip })
+                this.supplierRepository.createQueryBuilder('supplier')
+                  .where({ isActive: true })
+                  .leftJoinAndSelect('supplier.products', 'products')
+                  .take(limit)
+                  .skip(skip)
+                  .getMany()
             ])
             const lastPage = Math.ceil(total / limit);
 
@@ -51,10 +57,12 @@ export class SuppliersService {
             }
 
             return {
-                page,
-                limit,
-                lastPage,
-                total,
+                meta: {
+                    page,
+                    limit,
+                    lastPage,
+                    total,
+                },
                 data,
             };
         } catch (error) {

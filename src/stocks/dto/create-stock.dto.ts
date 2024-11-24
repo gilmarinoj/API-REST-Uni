@@ -9,4 +9,12 @@ export class CreateStockDto {
     @IsString()
     @IsOptional()
     description: string
+
+    @IsString()
+    @IsNotEmpty()
+    products: string
+
+    @IsString()
+    @IsNotEmpty()
+    warehouses: string;
 }

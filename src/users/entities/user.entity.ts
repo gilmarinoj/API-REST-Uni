@@ -1,4 +1,4 @@
-import { BaseEntity } from "./../../common/config/base.entity";
+import { BaseEntity } from "../../common/config/base.entity";
 import { UserGender } from "../../common/enums/user-gender.enum";
 import { UserRole } from "../../common/enums/user-role.enum";
 import { Column, Entity } from "typeorm";
@@ -11,6 +11,9 @@ export class UserEntity extends BaseEntity{
 
     @Column({type: "enum", enum: UserGender})
     gender: UserGender;
+
+    @Column({type: "int"})
+    age: number
 
     @Column({type: "varchar"})
     email: string;

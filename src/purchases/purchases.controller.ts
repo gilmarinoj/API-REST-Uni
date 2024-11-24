@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe
 import { PurchasesService } from './purchases.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
-import { PaginationDto } from 'src/common/dtos/pagination/pagination.dto';
+import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
 
 @Controller('purchases')
 export class PurchasesController {

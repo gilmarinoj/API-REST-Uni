@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from './../users/users.service';
-import { ManagerError } from 'src/common/errors/manager.error';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { UsersService } from '@/users/users.service';
+import { ManagerError } from '@/common/errors/manager.error';
+import { UserEntity } from '@/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {

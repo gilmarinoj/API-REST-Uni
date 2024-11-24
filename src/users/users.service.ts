@@ -2,13 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
-import { UserGender } from 'src/common/enums/user-gender.enum';
-import { UserRole } from 'src/common/enums/user-role.enum';
-import { PaginationDto } from 'src/common/dtos/pagination/pagination.dto';
-import { ManagerError } from 'src/common/errors/manager.error';
+import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
+import { ManagerError } from '@/common/errors/manager.error';
 import { ResponseAllUsers } from './interfaces/response-users.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
+import { AllApiResponse } from '@/common/interfaces/response-api.interface';
 
 @Injectable()
 export class UsersService {
@@ -33,7 +32,7 @@ export class UsersService {
         }
     }
 
-    async findAll(paginationDto: PaginationDto): Promise<ResponseAllUsers> {
+    async findAll(paginationDto: PaginationDto): Promise<AllApiResponse<UserEntity>> {
         const { limit, page } = paginationDto;
         const skip = (page - 1) * limit;
 
@@ -46,19 +45,21 @@ export class UsersService {
             ])
             const lastPage = Math.ceil(total / limit);
 
-            if(!data){
+            if (!data) {
                 new ManagerError({
                     type: "NOT_FOUND",
                     message: "No hay Usuarios"
                 })
-            } 
+            }
 
             return {
-                page,
-                limit,
-                lastPage,
-                total,
-                data,
+                meta: {
+                    page,
+                    limit,
+                    lastPage,
+                    total,
+                },
+                data
             };
         } catch (error) {
             ManagerError.createSignatureError(error.message);

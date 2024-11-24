@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
-import { BaseEntity } from "./../../common/config/base.entity";
+import { BaseEntity } from "../../common/config/base.entity";
 import { SupplierEntity } from "../../suppliers/entities/supplier.entity";
 import { CategoryEntity } from "../../categories/entities/category.entity";
 import { StockEntity } from "../../stocks/entities/stock.entity";
@@ -8,7 +8,7 @@ import { StockEntity } from "../../stocks/entities/stock.entity";
 export class ProductEntity extends BaseEntity{
 
     @Column({type: "varchar"})
-    name: string;
+    product_name: string;
 
     @Column({type: "varchar", nullable: true})
     description?: string;

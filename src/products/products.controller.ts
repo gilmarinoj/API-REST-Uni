@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { PaginationDto } from '../common/dtos/pagination/pagination.dto';
+import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
 
 @Controller('products')
 export class ProductsController {

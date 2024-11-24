@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryEntity } from './entities/category.entity';
-import { ManagerError } from 'src/common/errors/manager.error';
-import { ResponseAllCategories } from './interfaces/response-categories.interface';
-import { PaginationDto } from '../common/dtos/pagination/pagination.dto';
+import { ManagerError } from '@/common/errors/manager.error';
+import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
+import { AllApiResponse } from '@/common/interfaces/response-api.interface';
 
 @Injectable()
 export class CategoriesService {
@@ -32,7 +32,7 @@ export class CategoriesService {
     }
   }
 
-  async findAll(paginationDto: PaginationDto): Promise<ResponseAllCategories> {
+  async findAll(paginationDto: PaginationDto): Promise<AllApiResponse<CategoryEntity>> {
     const { limit, page } = paginationDto;
     const skip = (page - 1) * limit;
 
@@ -42,11 +42,11 @@ export class CategoriesService {
       const [total, data] = await Promise.all([
         this.categoryRepository.count({ where: { isActive: true } }),
         this.categoryRepository.createQueryBuilder('category')
-        .where({ isActive: true })
-        .leftJoinAndSelect('category.products', 'products')
-        .take(limit)
-        .skip(skip)
-        .getMany()
+          .where({ isActive: true })
+          .leftJoinAndSelect('category.products', 'products')
+          .take(limit)
+          .skip(skip)
+          .getMany()
       ])
       const lastPage = Math.ceil(total / limit);
 
@@ -58,11 +58,13 @@ export class CategoriesService {
       }
 
       return {
-        page,
-        limit,
-        lastPage,
-        total,
-        data,
+        meta: {
+          page,
+          lastPage,
+          limit,
+          total
+        },
+        data
       };
     } catch (error) {
       ManagerError.createSignatureError(error.message);
@@ -72,10 +74,10 @@ export class CategoriesService {
   async findOne(id: string): Promise<CategoryEntity> {
     try {
       const category = await this.categoryRepository.createQueryBuilder('category')
-      .where({id, isActive: true})
-      .leftJoinAndSelect('category.products', 'product')
-      .getOne();
-      
+        .where({ id, isActive: true })
+        .leftJoinAndSelect('category.products', 'product')
+        .getOne();
+
       if (!category) {
         throw new ManagerError({
           type: 'NOT_FOUND',

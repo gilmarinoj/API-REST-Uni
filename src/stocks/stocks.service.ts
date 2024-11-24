@@ -4,9 +4,10 @@ import { UpdateStockDto } from './dto/update-stock.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StockEntity } from './entities/stock.entity';
 import { Repository, UpdateResult } from 'typeorm';
-import { ManagerError } from 'src/common/errors/manager.error';
-import { PaginationDto } from 'src/common/dtos/pagination/pagination.dto';
+import { ManagerError } from '@/common/errors/manager.error';
+import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
 import { ResponseAllStocks } from './interfaces/response-stocks.interface';
+import { AllApiResponse } from '@/common/interfaces/response-api.interface';
 
 @Injectable()
 export class StocksService {
@@ -31,7 +32,7 @@ export class StocksService {
     }
   }
 
-  async findAll(paginationDto: PaginationDto): Promise<ResponseAllStocks> {
+  async findAll(paginationDto: PaginationDto): Promise<AllApiResponse<StockEntity>> {
     const { limit, page } = paginationDto;
     const skip = (page - 1) * limit;
 
@@ -43,6 +44,7 @@ export class StocksService {
         this.stockRepository.createQueryBuilder('stock')
           .where({ isActive: true })
           .leftJoinAndSelect('stock.products', 'products')
+          .leftJoinAndSelect('stock.warehouses', 'warehouses')
           .take(limit)
           .skip(skip)
           .getMany()
@@ -57,11 +59,13 @@ export class StocksService {
       }
 
       return {
-        page,
-        limit,
-        lastPage,
-        total,
-        data,
+        meta: {
+          page,
+          limit,
+          lastPage,
+          total,
+        },
+        data
       };
     } catch (error) {
       ManagerError.createSignatureError(error.message);
