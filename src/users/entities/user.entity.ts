@@ -15,7 +15,7 @@ export class UserEntity extends BaseEntity{
     @Column({type: "int"})
     age: number
 
-    @Column({type: "varchar"})
+    @Column({type: "varchar", unique: true})
     email: string;
 
     @Column({type: "varchar"})

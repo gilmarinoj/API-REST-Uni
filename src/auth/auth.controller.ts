@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Header, Headers, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
@@ -17,4 +17,9 @@ export class AuthController {
     return this.authService.login(loginAuthDto);
   }
 
+  @Post('refresh')
+  refresh(@Req() req) {
+    const { token }  = req.headers;
+    return this.authService.refreshToken( token );
+  }
 }

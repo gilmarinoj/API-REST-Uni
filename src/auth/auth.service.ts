@@ -6,6 +6,11 @@ import { UsersService } from '@/users/users.service';
 import { ManagerError } from '@/common/errors/manager.error';
 import { UserEntity } from '@/users/entities/user.entity';
 
+type AuthType = {
+    user: UserEntity,
+    token: string;
+}
+
 @Injectable()
 export class AuthService {
 
@@ -13,14 +18,26 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService
   ) { }
-  register(registerAuthDto: RegisterAuthDto) {
-    return 'This action adds a new auth';
+  async register(registerAuthDto: RegisterAuthDto): Promise<AuthType> {
+    try {
+
+      const user = await this.usersService.create( registerAuthDto );
+      const token = await this.jwtService.signAsync({ email: user.email, id: user.id, role: user.role }, {secret: process.env.JWT_SECRET})
+      
+      if ( !token ){
+        throw new ManagerError({
+          type: "INTERNAL_SERVER_ERROR",
+          message: "Ocurrio un error interno en el servidor"
+        })
+      }
+
+      return {user, token};
+    } catch (error) {
+      ManagerError.createSignatureError(error.message)
+    }
   }
 
-  async login(loginAuthDto: LoginAuthDto): Promise<{
-    user: UserEntity,
-    token: string;
-  }> {
+  async login(loginAuthDto: LoginAuthDto): Promise<AuthType> {
     const { email, password } = loginAuthDto
     try {
       const user = await this.usersService.findOneByEmail(email);
@@ -31,7 +48,7 @@ export class AuthService {
         });
       }
 
-      const token = await this.jwtService.signAsync({ email: user.email, id: user.id }, {secret: process.env.JWT_SECRET})
+      const token = await this.jwtService.signAsync({ email: user.email, id: user.id, role: user.role }, {secret: process.env.JWT_SECRET})
       if ( !token ){
         throw new ManagerError({
           type: "INTERNAL_SERVER_ERROR",
@@ -46,5 +63,26 @@ export class AuthService {
     };
   }
 
+  async refreshToken( token:string ): Promise<string>{
+    try {
+
+      // const [type, token] = token.split
+
+      const payload = await this.jwtService.verifyAsync( token, {secret: process.env.JWT_SECRET} );
+      if( !payload ){
+        throw new ManagerError({type: "BAD_REQUEST", message: "Token not provider"});
+      }
+
+      const newToken = await this.jwtService.signAsync( payload, { secret: process.env.JWT_SECRET } )
+
+      if( !newToken ){
+        throw new ManagerError({type: "INTERNAL_SERVER_ERROR", message: "YUJUU"});
+      }
+
+      return newToken;
+    } catch (error) {
+      ManagerError.createSignatureError(error.message);
+    }
+  }
 
 }

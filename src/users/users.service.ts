@@ -28,6 +28,12 @@ export class UsersService {
             }
             return user;
         } catch (error) {
+            if( error.code === '23505' ){
+                throw new ManagerError({
+                    type: 'CONFLICT',
+                    message: 'Duplicated email!',
+                });
+            }
             ManagerError.createSignatureError(error.message);
         }
     }
