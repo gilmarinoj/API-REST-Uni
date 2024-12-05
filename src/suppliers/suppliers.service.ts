@@ -72,7 +72,10 @@ export class SuppliersService {
 
     async findOne(id: string): Promise<SupplierEntity> {
         try {
-            const supplier = await this.supplierRepository.findOne({ where: { id: id } })
+            const supplier = await this.supplierRepository.createQueryBuilder('supplier')
+            .where({ id, isActive: true })
+            .leftJoinAndSelect('supplier.products', 'product')
+            .getOne();
             if (!supplier) {
                 throw new ManagerError({
                     type: 'NOT_FOUND',

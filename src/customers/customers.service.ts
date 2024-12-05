@@ -70,7 +70,7 @@ export class CustomersService {
   async findOne(id: string): Promise<CustomerEntity> {
     try {
       const customer = await this.customerRepository.createQueryBuilder('customer')
-        .where({ isActive: true })
+        .where({ id, isActive: true })
         .leftJoinAndSelect('customer.purchase', 'purchase')
         .getOne()
 

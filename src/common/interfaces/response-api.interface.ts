@@ -1,8 +1,4 @@
-
-export interface AllApiResponse<T>{
-    meta: Metadata
-    data: T[]
-}
+import { HttpStatus } from "@nestjs/common";
 
 export interface Metadata {
     page: number;
@@ -10,3 +6,22 @@ export interface Metadata {
     limit: number;
     total: number;
 }
+
+export interface Status {
+    statusMsg: keyof typeof HttpStatus;
+    statusCode: number;
+    error: string | null;
+}
+
+export interface ResponseApi<T> {
+    status: Status;
+    data: T;
+}
+
+export interface AllApiResponse<T>{
+    meta: Metadata;
+    data: T[];
+}
+
+
+

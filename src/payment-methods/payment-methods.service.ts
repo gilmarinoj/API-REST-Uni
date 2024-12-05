@@ -70,7 +70,7 @@ export class PaymentMethodsService {
   async findOne(id: string): Promise<PaymentMethodEntity> {
     try {
       const paymentMethod = await this.paymentMethodRepository.createQueryBuilder('paymentMethod')
-        .where({ isActive: true })
+        .where({ id, isActive: true })
         .leftJoinAndSelect('paymentMethod.purchase', 'purchase')
         .getOne()
 

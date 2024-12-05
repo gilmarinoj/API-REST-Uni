@@ -11,7 +11,6 @@ export class CategoryEntity extends BaseEntity {
     @Column({type: "varchar"})
     description?: string;
 
-
     @OneToMany(() => ProductEntity, (products) => products.category)
     products: ProductEntity[];
 

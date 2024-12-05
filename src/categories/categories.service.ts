@@ -6,7 +6,7 @@ import { ManagerError } from '@/common/errors/manager.error';
 import { PaginationDto } from '@/common/dtos/pagination/pagination.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
-import { AllApiResponse } from '@/common/interfaces/response-api.interface';
+import { AllApiResponse, ResponseApi } from '@/common/interfaces/response-api.interface';
 
 @Injectable()
 export class CategoriesService {
@@ -17,7 +17,7 @@ export class CategoriesService {
     private readonly categoryRepository: Repository<CategoryEntity>,
   ) { }
 
-  async create(createCategoryDto: CreateCategoryDto): Promise<CategoryEntity> {
+  async create(createCategoryDto: CreateCategoryDto): Promise<ResponseApi<CategoryEntity>> {
     try {
       const category = await this.categoryRepository.save(createCategoryDto);
       if (!category) {
@@ -26,7 +26,14 @@ export class CategoriesService {
           message: 'Category not created!',
         });
       }
-      return category;
+      return {
+        status: {
+          statusMsg: 'ACCEPTED',
+          statusCode: 200,
+          error: null
+        },
+        data: category
+      }
     } catch (error) {
       ManagerError.createSignatureError(error.message);
     }
@@ -71,7 +78,7 @@ export class CategoriesService {
     }
   }
 
-  async findOne(id: string): Promise<CategoryEntity> {
+  async findOne(id: string): Promise<ResponseApi<CategoryEntity>> {
     try {
       const category = await this.categoryRepository.createQueryBuilder('category')
         .where({ id, isActive: true })
@@ -85,7 +92,14 @@ export class CategoriesService {
         });
       }
 
-      return category;
+      return {
+        status: {
+          statusMsg: 'ACCEPTED',
+          statusCode: 200,
+          error: null
+        },
+        data: category
+      }
     } catch (error) {
       ManagerError.createSignatureError(error.message);
     }
