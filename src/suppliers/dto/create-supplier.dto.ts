@@ -4,7 +4,7 @@ export class CreateSupplierDto {
     
     @IsString()
     @IsNotEmpty()
-    supplier_name: string;
+    name: string;
 
     @IsString()
     @IsNotEmpty()
@@ -25,9 +25,9 @@ export class CreateSupplierDto {
 
     @IsNumber()
     @IsNotEmpty()
-    postal_code: number
+    postalCode: number;
 
     @IsString()
     @IsNotEmpty()
-    supplier_contact: string
+    contact: string;
 }

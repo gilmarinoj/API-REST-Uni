@@ -13,7 +13,7 @@ export class PurchaseEntity extends BaseEntity{
 
     @ManyToOne(() => PaymentMethodEntity, (paymentMethod) => paymentMethod.purchase)
     @JoinColumn({name: "payment_method_id"})
-    payment_method: string;
+    paymentMethod: string;
 
     @ManyToOne(() => CustomerEntity, (customer) =>  customer.purchase)
     @JoinColumn({name: "customer_id"})

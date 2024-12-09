@@ -6,7 +6,7 @@ import { Column, Entity, OneToMany } from "typeorm";
 export class CategoryEntity extends BaseEntity {
 
     @Column({type: "varchar"})
-    category_name: string;
+    name: string;
 
     @Column({type: "varchar"})
     description?: string;

@@ -6,10 +6,10 @@ import { Column, Entity, OneToMany } from "typeorm"
 export class WarehouseEntity extends BaseEntity{
 
     @Column({type: "varchar"})
-    warehouse_name: string
+    name: string;
 
     @Column({type: "varchar"})
-    description?: string
+    description?: string;
 
     @OneToMany(() => StockEntity, (stocks) => stocks.warehouses)
     stocks: StockEntity[];

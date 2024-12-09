@@ -8,7 +8,7 @@ import { StockEntity } from "../../stocks/entities/stock.entity";
 export class ProductEntity extends BaseEntity{
 
     @Column({type: "varchar"})
-    product_name: string;
+    name: string;
 
     @Column({type: "varchar", nullable: true})
     description?: string;

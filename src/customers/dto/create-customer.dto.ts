@@ -4,26 +4,26 @@ export class CreateCustomerDto {
 
     @IsString()
     @IsNotEmpty()
-    customer_name: string
+    name: string;
 
     @IsString()
     @IsNotEmpty()
-    customer_contact: string
+    contact: string;
 
     @IsString()
     @IsNotEmpty()
-    address: string
+    address: string;
 
     @IsString()
     @IsNotEmpty()
-    city: string
+    city: string;
 
     @IsNumber()
     @IsNotEmpty()
-    postal_code: number
+    postalCode: number;
 
     @IsString()
     @IsNotEmpty()
-    country: string
+    country: string;
 
 }

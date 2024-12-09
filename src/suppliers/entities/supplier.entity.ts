@@ -6,10 +6,10 @@ import { Column, Entity, OneToMany } from "typeorm";
 export class SupplierEntity extends BaseEntity{
 
     @Column({type: "varchar"})
-    supplier_name: string;
+    name: string;
 
     @Column({type: "varchar"})
-    supplier_contact: string
+    contact: string
 
     @Column({type: "varchar"})
     phone: string;
@@ -24,7 +24,7 @@ export class SupplierEntity extends BaseEntity{
     city: string
 
     @Column({type: "int"})
-    postal_code: number
+    postalCode: number
 
     @OneToMany(() => ProductEntity, ( products ) => products.supplier  )
     products: ProductEntity[];

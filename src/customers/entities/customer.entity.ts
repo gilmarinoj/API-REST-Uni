@@ -6,10 +6,10 @@ import { Column, Entity, OneToMany } from 'typeorm';
 export class CustomerEntity extends BaseEntity{
 
     @Column({type: 'varchar'})
-    customer_name: string
+    name: string
 
     @Column({type: 'varchar'})
-    customer_contact: string
+    contact: string
 
     @Column({type: 'varchar'})
     address: string
@@ -18,7 +18,7 @@ export class CustomerEntity extends BaseEntity{
     city: string
 
     @Column({type: 'int'})
-    postal_code: number
+    postalCode: number
 
     @Column({type: 'varchar'})
     country: string

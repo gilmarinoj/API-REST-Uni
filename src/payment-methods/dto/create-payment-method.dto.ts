@@ -5,5 +5,5 @@ export class CreatePaymentMethodDto {
 
     @IsString()
     @IsNotEmpty()
-    payment_method: string;
+    paymentMethod: string;
 }

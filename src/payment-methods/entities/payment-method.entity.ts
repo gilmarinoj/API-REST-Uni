@@ -7,8 +7,8 @@ import { Column, Entity, OneToMany } from "typeorm";
 export class PaymentMethodEntity extends BaseEntity{
 
     @Column({type: "varchar"})
-    payment_method: string;
+    paymentMethod: string;
 
-    @OneToMany(() => PurchaseEntity, (purchase) => purchase.payment_method)
+    @OneToMany(() => PurchaseEntity, (purchase) => purchase.paymentMethod)
     purchase: PurchaseEntity[];
 }

@@ -4,7 +4,7 @@ export class CreateProductDto {
     @IsString()
     @IsNotEmpty()
     @MinLength(3)    
-    product_name: string;
+    name: string;
 
     @IsString()
     @IsOptional()
@@ -15,11 +15,9 @@ export class CreateProductDto {
     @Min(0)
     price?: number = 0;
 
-
     @IsArray()
     @IsOptional()
     photo?: string[];
-
 
     @IsString()
     @IsNotEmpty()
